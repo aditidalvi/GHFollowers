@@ -20,8 +20,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds) // make it fit to the entire screen.
         window?.windowScene = windowScene // every window has a window scene.
-        window?.rootViewController = ViewController() // ViewController is the root view controller that is used to display our screens. window needs a viewcontroller to show.
+        window?.rootViewController = createTabBar()
         window?.makeKeyAndVisible()
+    }
+    
+    func createSearchNC() -> UINavigationController {
+        let searchVC = SearchViewController()
+        searchVC.title = "Search"
+        searchVC.tabBarItem = .init(tabBarSystemItem: .search, tag: 0)
+        let searchNC = UINavigationController(rootViewController: searchVC)
+        searchNC.navigationBar.isTranslucent = false
+        return searchNC
+    }
+    
+    func createFavouritesListNC() -> UINavigationController {
+        let favouritesVC = FavouritesListViewController()
+        favouritesVC.title = "Favourites"
+        favouritesVC.tabBarItem = .init(tabBarSystemItem: .favorites, tag: 1)
+        let favouritesNC = UINavigationController(rootViewController: favouritesVC)
+        favouritesNC.navigationBar.isTranslucent = false
+        return favouritesNC
+    }
+    
+    func createTabBar() -> UITabBarController {
+        let tabbar = UITabBarController()
+        tabbar.viewControllers = [createSearchNC(), createFavouritesListNC()]
+        tabbar.tabBar.isTranslucent = false
+        tabbar.tabBar.tintColor = .systemGreen
+        return tabbar
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
